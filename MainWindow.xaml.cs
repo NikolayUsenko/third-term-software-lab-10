@@ -13,29 +13,28 @@ namespace software_lab10
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int N = 10;
+            int n = 0;
             try
             {
-                N = Convert.ToInt32(FigureCount.Text);
+                n = Convert.ToInt32(FigureCount.Text);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Title = "Только целое число!";
             }
-            GenerateShapes(N);
+            GenerateShapes(n);
         }
 
-        private void GenerateShapes(int N)
+        private void GenerateShapes(int n)
         {
-            Random rndShapeType = new Random(DateTime.Now.Millisecond);
-            Random rndStyle = new Random(DateTime.Now.Second);
-            Random rndPosition = new Random(DateTime.Now.Minute);
-            Random rndSize = new Random(DateTime.Now.Minute);
+            Random rnd = new Random();
 
-            for (int i = 0; i < N; i++)
+            MainCanvas.Children.Clear();
+
+            for (int i = 0; i < n; i++)
             {
                 Shape currentShape;
-                int shapeType = rndShapeType.Next(0, 2);
+                int shapeType = rnd.Next(2);
                 if (shapeType == 0)
                 {
                     currentShape = new Ellipse();
@@ -45,17 +44,17 @@ namespace software_lab10
                     currentShape = new Rectangle();
                 }
 
-                int shapeStyle = rndStyle.Next(0, 3) + 1;
-                String styleName = "style" + shapeStyle.ToString();
+                int shapeStyle = rnd.Next(4) + 1;
+                String styleName = "Style" + shapeStyle.ToString();
                 Style currentStyle = (Style)this.FindResource(styleName);
                 currentShape.Style = currentStyle;
 
-                currentShape.Width = rndSize.Next(10, 200);
-                currentShape.Height = rndSize.Next(10, 100);
+                currentShape.Width = rnd.Next(10, 150);
+                currentShape.Height = rnd.Next(10, 150);
 
                 MainCanvas.Children.Add(currentShape);
-                Canvas.SetLeft(currentShape, rndPosition.Next(5, 750));
-                Canvas.SetTop(currentShape, rndPosition.Next(5, 370));
+                Canvas.SetLeft(currentShape, rnd.Next(20, 620));
+                Canvas.SetTop(currentShape, rnd.Next(20, 250));
             }
         }
 
